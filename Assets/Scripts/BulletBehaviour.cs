@@ -18,7 +18,8 @@ public class BulletBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         mousePosition = mainCam.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction;
-        if (Mathf.Sqrt(Mathf.Pow((player.transform.position.x - mousePosition.x), 2) + Mathf.Pow((player.transform.position.y- mousePosition.y), 2)) < 1.75f) 
+        if (Mathf.Sqrt(Mathf.Pow((player.transform.position.x - mousePosition.x), 2) + 
+            Mathf.Pow((player.transform.position.y- mousePosition.y), 2)) < 1.75f) 
         {
             direction = -(mousePosition - transform.position);
         }
