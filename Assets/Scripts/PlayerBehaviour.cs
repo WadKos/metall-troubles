@@ -15,11 +15,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         hInput = Input.GetAxis("Horizontal") * _speed;
         vInput = Input.GetAxis("Vertical") * _speed;
-        mousePosition = Input.mousePosition;
-        if (Input.GetMouseButton(0))
-        {
-           GameObject newBullet = Instantiate(_bullet);
-        }
     }
     private void FixedUpdate()
     {

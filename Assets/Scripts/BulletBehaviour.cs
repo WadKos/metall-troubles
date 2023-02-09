@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour
 {
-    [SerializeField] private float _bulletSpeed;
-    private Rigidbody2D _rb;
+    private Camera mainCam;
+    [SerializeField] private float bulletSpeed;
+    private Rigidbody2D rb;
     private Vector3 mousePosition;
+    private float lifeTime = 3f;
+
     void Start()
     {
-        _rb = this.GetComponent<Rigidbody2D>();
-        _rb.velocity = this.transform.forward * _bulletSpeed;
-        Destroy(this, 3f);
+        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        rb = GetComponent<Rigidbody2D>();
+        mousePosition = mainCam.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 direction = mousePosition - transform.position;
+        Vector3 rotation = transform.position - mousePosition;
+        rb.velocity = new Vector2(direction.x, direction.y).normalized * bulletSpeed;
+        float rot = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, rot + 90);
+        Destroy(gameObject, lifeTime);
     }
 
-    private void Update()
-    {
-        mousePosition = Input.mousePosition;
-    }
 }
