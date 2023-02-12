@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    [SerializeField] private int health = 100;
     [SerializeField] private float _speed;
-    [SerializeField] private float bulletSpeed;
-    [SerializeField] GameObject _bullet;
+
     private float hInput;
     private float vInput;
     private Vector3 mousePosition;
@@ -22,4 +22,27 @@ public class PlayerBehaviour : MonoBehaviour
         this.transform.Translate(Vector2.up * Time.fixedDeltaTime * vInput);
     }
 
+    public void takeDamage(int damage)
+    {
+        this.health -= damage;
+        if (health <= 0)
+        {
+            death();
+        }
+    }
+
+    private void death()
+    {
+        Destroy(this.gameObject);
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "EnemyBullet")
+        {
+            takeDamage(collision.gameObject.GetComponent<BulletBehaviour>().getDamage());
+            Destroy(collision.gameObject);
+        }
+    }
 }

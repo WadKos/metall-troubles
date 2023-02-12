@@ -397,7 +397,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2302140610966031962, guid: 35e7c23ca24ca2b40931ae4c3ada136d, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2302140610966031962, guid: 35e7c23ca24ca2b40931ae4c3ada136d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -454,7 +454,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2302140610966031962, guid: 35e7c23ca24ca2b40931ae4c3ada136d, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2302140610966031962, guid: 35e7c23ca24ca2b40931ae4c3ada136d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -620,6 +620,7 @@ GameObject:
   - component: {fileID: 1947697879}
   - component: {fileID: 1947697878}
   - component: {fileID: 1947697881}
+  - component: {fileID: 1947697882}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -714,7 +715,7 @@ Transform:
   m_Children:
   - {fileID: 1711211848}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1947697881
 MonoBehaviour:
@@ -728,9 +729,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddca4561d2a5eb04cbc0653b1f5ec9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   _speed: 10
-  bulletSpeed: 0
-  _bullet: {fileID: 1769718023713006474, guid: cd143ad3b30dd734ba584fc31297f647, type: 3}
+--- !u!70 &1947697882
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947697877}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1, y: 2}
+  m_Direction: 0
 --- !u!1001 &2302140610590100366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -740,7 +756,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2302140610966031962, guid: 35e7c23ca24ca2b40931ae4c3ada136d, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2302140610966031962, guid: 35e7c23ca24ca2b40931ae4c3ada136d, type: 3}
       propertyPath: m_LocalPosition.x
