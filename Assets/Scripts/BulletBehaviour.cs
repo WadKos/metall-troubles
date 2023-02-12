@@ -10,6 +10,7 @@ public class BulletBehaviour : MonoBehaviour
     private Vector3 mousePosition;
     private float lifeTime = 3f;
     private GameObject player;
+    [SerializeField] private int damage;
 
     void Start()
     {
@@ -36,12 +37,9 @@ public class BulletBehaviour : MonoBehaviour
     }
 
 
-    //Уничтожение пули при соприкосновении со стеной или врагом
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    public int getDamage()
     {
-        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Wall")
-        {
-            Destroy(gameObject);
-        }
+        return this.damage;
     }
 }
