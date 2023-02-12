@@ -35,4 +35,13 @@ public class BulletBehaviour : MonoBehaviour
         Debug.Log(Mathf.Sqrt(Mathf.Pow((player.transform.position.x - mousePosition.x), 2) + Mathf.Pow((player.transform.position.y - mousePosition.y), 2)));
     }
 
+
+    //Уничтожение пули при соприкосновении со стеной или врагом
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Wall")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
