@@ -22,7 +22,8 @@ public class EnemyBehaviour : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             takeDamage(collision.gameObject.GetComponent<BulletBehaviour>().getDamage());
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<Animator>().Play("Bullet_destroy");
+            Destroy(collision.gameObject, 0.05f);
         }
     }
 

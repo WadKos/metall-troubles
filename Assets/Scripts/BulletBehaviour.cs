@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour
 {
+    private Animator anim;
     private Camera mainCam;
     [SerializeField] private float bulletSpeed;
     private Rigidbody2D rb;
@@ -14,6 +15,7 @@ public class BulletBehaviour : MonoBehaviour
 
     void Start()
     {
+        anim = gameObject.GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
@@ -26,23 +28,33 @@ public class BulletBehaviour : MonoBehaviour
             mainPosition = player.transform.position;
         }
         Vector3 direction;
+        Vector3 rotation;
         if (Mathf.Sqrt(Mathf.Pow((player.transform.position.x - mainPosition.x), 2) + 
-            Mathf.Pow((player.transform.position.y- mainPosition.y), 2)) < 1.75f && this.gameObject.tag == "Bullet") 
+            Mathf.Pow((player.transform.position.y- mainPosition.y), 2)) < 1.75f && this.gameObject.CompareTag("Bullet")) 
         {
             direction = -(mainPosition - transform.position);
+            rotation = -(transform.position - mainPosition);
         }
         else
         {
             direction = mainPosition - transform.position;
+            rotation = transform.position - mainPosition;
         }
-        Vector3 rotation = transform.position - mainPosition;
+        
         rb.velocity = new Vector2(direction.x, direction.y).normalized * bulletSpeed;
         float rot = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, rot + 90);
-        Destroy(gameObject, lifeTime);
+        transform.rotation = Quaternion.Euler(0, 0, rot);
         //Debug.Log(Mathf.Sqrt(Mathf.Pow((player.transform.position.x - mousePosition.x), 2) + Mathf.Pow((player.transform.position.y - mousePosition.y), 2)));
     }
-
+    private void FixedUpdate()
+    {
+        lifeTime -= Time.fixedDeltaTime;
+        if (lifeTime <= 0)
+        {
+            anim.Play("Bullet_destroy");
+            Destroy(gameObject, 0.2f);
+        }
+    }
 
 
     public int getDamage()
