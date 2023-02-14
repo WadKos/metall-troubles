@@ -30,7 +30,7 @@ public class BulletBehaviour : MonoBehaviour
         Vector3 direction;
         Vector3 rotation;
         if (Mathf.Sqrt(Mathf.Pow((player.transform.position.x - mainPosition.x), 2) + 
-            Mathf.Pow((player.transform.position.y- mainPosition.y), 2)) < 1.75f && this.gameObject.CompareTag("Bullet")) 
+            Mathf.Pow((player.transform.position.y- mainPosition.y), 2)) < 1f && this.gameObject.CompareTag("Bullet")) 
         {
             direction = -(mainPosition - transform.position);
             rotation = -(transform.position - mainPosition);
@@ -51,11 +51,27 @@ public class BulletBehaviour : MonoBehaviour
         lifeTime -= Time.fixedDeltaTime;
         if (lifeTime <= 0)
         {
-            anim.Play("Bullet_destroy");
-            Destroy(gameObject, 0.2f);
+            if (gameObject.CompareTag("Bullet"))
+            {
+                anim.Play("Bullet_destroy");
+                Destroy(gameObject, 0.2f);
+            }
+            else if (gameObject.CompareTag("EnemyBullet"))
+            {
+                anim.Play("Fireball_destroy");
+                Destroy(gameObject, 0.5f);
+            }
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if((this.gameObject.CompareTag("Bullet") && collision.gameObject.CompareTag("Enemy")) || 
+            (this.gameObject.CompareTag("EnemyBullet") && collision.gameObject.CompareTag("Player")))
+        {
+            rb.velocity = new Vector2(0, 0);
+        }
+    }
 
     public int getDamage()
     {

@@ -11,9 +11,11 @@ public class Shooting : MonoBehaviour
     public bool canFire;
     private float timer;
     [SerializeField] public float timeBetweenFiring;
+    private GameObject player;
     void Start()
     {
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
@@ -25,6 +27,15 @@ public class Shooting : MonoBehaviour
         float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Euler(0, 0, rotZ);
+
+        if (mousePos.x < player.transform.position.x)
+        {
+            player.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            player.GetComponent<SpriteRenderer>().flipX = false;
+        }
 
         if (!canFire)
         {

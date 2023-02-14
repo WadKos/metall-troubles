@@ -9,7 +9,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     private float hInput;
     private float vInput;
-    private Vector3 mousePosition;
+    private Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -18,6 +23,13 @@ public class PlayerBehaviour : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        {
+            anim.Play("Player_walk");
+        } else
+        {
+            anim.Play("Player_idle");
+        }
         this.transform.Translate(Vector2.right * Time.fixedDeltaTime * hInput);
         this.transform.Translate(Vector2.up * Time.fixedDeltaTime * vInput);
     }
@@ -42,7 +54,9 @@ public class PlayerBehaviour : MonoBehaviour
         if (collision.gameObject.tag == "EnemyBullet")
         {
             takeDamage(collision.gameObject.GetComponent<BulletBehaviour>().getDamage());
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            collision.gameObject.GetComponent<Animator>().Play("Fireball_destroy");
+            Destroy(collision.gameObject, 0.5f);
         }
     }
 }

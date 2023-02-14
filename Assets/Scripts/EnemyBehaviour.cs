@@ -46,6 +46,15 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (playerPosition.position.x > this.gameObject.transform.position.x)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        } 
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+
         distanceToPlayer = Mathf.Sqrt(Mathf.Pow(playerPosition.position.x - this.gameObject.transform.position.x, 2f) +
             Mathf.Pow(playerPosition.position.y - this.gameObject.transform.position.y, 2f));
 
