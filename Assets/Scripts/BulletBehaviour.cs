@@ -30,7 +30,7 @@ public class BulletBehaviour : MonoBehaviour
         Vector3 direction;
         Vector3 rotation;
         if (Mathf.Sqrt(Mathf.Pow((player.transform.position.x - mainPosition.x), 2) + 
-            Mathf.Pow((player.transform.position.y- mainPosition.y), 2)) < 1f && this.gameObject.CompareTag("Bullet")) 
+            Mathf.Pow((player.transform.position.y- mainPosition.y), 2)) < 0.5f && this.gameObject.CompareTag("Bullet")) 
         {
             direction = -(mainPosition - transform.position);
             rotation = -(transform.position - mainPosition);

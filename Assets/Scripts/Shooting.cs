@@ -31,10 +31,12 @@ public class Shooting : MonoBehaviour
         if (mousePos.x < player.transform.position.x)
         {
             player.GetComponent<SpriteRenderer>().flipX = true;
+            bulletTransform.GetComponent<SpriteRenderer>().flipY = true;
         }
         else
         {
             player.GetComponent<SpriteRenderer>().flipX = false;
+            bulletTransform.GetComponent<SpriteRenderer>().flipY = false;
         }
 
         if (!canFire)
@@ -51,7 +53,15 @@ public class Shooting : MonoBehaviour
         {
             canFire = false;
             Instantiate(bullet, bulletTransform.position, Quaternion.identity);
+        }
 
+        if (Input.GetMouseButton(0))
+        {
+            bulletTransform.GetComponent<Animator>().Play("Rifle_shoot");
+        }
+        else
+        {
+            bulletTransform.GetComponent<Animator>().Play("Rifle_idle");
         }
     }
 }
