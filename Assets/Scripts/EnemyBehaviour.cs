@@ -10,10 +10,15 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float minDistance = 5f;
     private float distanceToPlayer;
     private float distanceInterval = 0.5f;
+    private Animator anim;
+    private Rigidbody2D rb;
+    private bool canMove = true;
 
     private void Start()
     {
         playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     //СМЭРТЬ от пули + уничтожение пули
@@ -40,7 +45,11 @@ public class EnemyBehaviour : MonoBehaviour
     //СМЭРТЬ
     private void death()
     {
-        Destroy(gameObject);
+        canMove = false;
+        DestroyImmediate(transform.GetChild(0).gameObject);
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        anim.Play("Mage_death");
+        Destroy(gameObject, 0.5f);
     }
 
 
@@ -58,14 +67,18 @@ public class EnemyBehaviour : MonoBehaviour
         distanceToPlayer = Mathf.Sqrt(Mathf.Pow(playerPosition.position.x - this.gameObject.transform.position.x, 2f) +
             Mathf.Pow(playerPosition.position.y - this.gameObject.transform.position.y, 2f));
 
-        if (distanceToPlayer > minDistance + distanceInterval)
+        if (canMove)
         {
-            this.transform.position = Vector2.MoveTowards(this.gameObject.transform.position, playerPosition.position, speed * Time.fixedDeltaTime);
+            if (distanceToPlayer > minDistance + distanceInterval)
+            {
+                this.transform.position = Vector2.MoveTowards(this.gameObject.transform.position, playerPosition.position, speed * Time.fixedDeltaTime);
+            }
+            else if (distanceToPlayer < minDistance - distanceInterval)
+            {
+                this.transform.position = (Vector2.MoveTowards(this.gameObject.transform.position, playerPosition.position, -speed * Time.fixedDeltaTime));
+            }
         }
-        else if (distanceToPlayer < minDistance - distanceInterval)
-        {
-            this.transform.position = (Vector2.MoveTowards(this.gameObject.transform.position, playerPosition.position, -speed * Time.fixedDeltaTime));
-        }
+
     }
 
 }
