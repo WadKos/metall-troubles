@@ -34,16 +34,16 @@ public class PlayerBehaviour : MonoBehaviour
         this.transform.Translate(Vector2.up * Time.fixedDeltaTime * vInput);
     }
 
-    public void takeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         this.health -= damage;
         if (health <= 0)
         {
-            death();
+            Death();
         }
     }
 
-    private void death()
+    private void Death()
     {
         Destroy(this.gameObject);
     }
@@ -53,7 +53,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (collision.gameObject.tag == "EnemyBullet")
         {
-            takeDamage(collision.gameObject.GetComponent<BulletBehaviour>().getDamage());
+            TakeDamage(collision.gameObject.GetComponent<BulletBehaviour>().getDamage());
             collision.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             collision.gameObject.GetComponent<Animator>().Play("Fireball_destroy");
             Destroy(collision.gameObject, 0.5f);

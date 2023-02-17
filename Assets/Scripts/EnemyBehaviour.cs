@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    [SerializeField] private int health = 100;
-    [SerializeField] private float speed = 0.5f;
-    private Transform playerPosition;
-    [SerializeField] private float minDistance = 5f;
-    private float distanceToPlayer;
-    private float distanceInterval = 0.5f;
-    private Animator anim;
-    private Rigidbody2D rb;
-    private bool canMove = true;
+    [SerializeField] protected int health = 100;
+    [SerializeField] protected float speed = 0.5f;
+    protected Transform playerPosition;
+    [SerializeField] protected float minDistance = 5f;
+    [SerializeField] protected float distanceToPlayer;
+    [SerializeField] protected float distanceInterval = 0.5f;
+    [SerializeField] protected Animator anim;
+    protected Rigidbody2D rb;
+    [SerializeField] protected bool canMove = true;
 
-    private void Start()
+    protected virtual void Start()
     {
         playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
         anim = GetComponent<Animator>();
@@ -26,39 +26,18 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            takeDamage(collision.gameObject.GetComponent<BulletBehaviour>().getDamage());
+            TakeDamage(collision.gameObject.GetComponent<BulletBehaviour>().getDamage());
             collision.gameObject.GetComponent<Animator>().Play("Bullet_destroy");
             Destroy(collision.gameObject, 0.05f);
         }
     }
 
-    //Нанесение урона
-    public void takeDamage(int damage)
-    {
-        this.health -= damage;
-        if (this.health <= 0)
-        {
-            death();
-        }
-    }
-
-    //СМЭРТЬ
-    private void death()
-    {
-        canMove = false;
-        DestroyImmediate(transform.GetChild(0).gameObject);
-        rb.constraints = RigidbodyConstraints2D.FreezePosition;
-        anim.Play("Mage_death");
-        Destroy(gameObject, 0.5f);
-    }
-
-
-    private void FixedUpdate()
+    protected void BasicMove()
     {
         if (playerPosition.position.x > this.gameObject.transform.position.x)
         {
             GetComponent<SpriteRenderer>().flipX = false;
-        } 
+        }
         else
         {
             GetComponent<SpriteRenderer>().flipX = true;
@@ -79,6 +58,27 @@ public class EnemyBehaviour : MonoBehaviour
             }
         }
 
+    }
+    //Нанесение урона
+    protected void TakeDamage(int damage)
+    {
+        this.health -= damage;
+        if (this.health <= 0)
+        {
+            Death();
+        }
+    }
+
+    //СМЭРТЬ
+    protected virtual void Death()
+    {
+
+    }
+
+
+    private void FixedUpdate()
+    {
+        BasicMove();
     }
 
 }

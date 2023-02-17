@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 2302140610966031962}
   - component: {fileID: 2302140610966031965}
   - component: {fileID: 2302140610966031964}
-  - component: {fileID: 2302140610966031963}
+  - component: {fileID: 627015458960724697}
   - component: {fileID: 4668306967654115394}
   - component: {fileID: 4667318093341332588}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Mage
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,7 +110,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2302140610966031963
+--- !u!114 &627015458960724697
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,11 +119,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2302140610966031967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09629867e37bdf447b38fb8ea3dceda8, type: 3}
+  m_Script: {fileID: 11500000, guid: ebeca74b3f61b2a41acb60e08afa4a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  speed: 1.5
+  speed: 0.5
   minDistance: 5
 --- !u!61 &4668306967654115394
 BoxCollider2D:
