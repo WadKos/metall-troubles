@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MageBehaviour : EnemyBehaviour
 {
-
-
-
     protected override void Death()
     {
         canMove = false;
