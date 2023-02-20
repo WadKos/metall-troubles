@@ -22,21 +22,24 @@ public class EnemyShooting : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0, 0, rotZ);
 
-        if (!canFire)
+        if (bullet != null)
         {
-            timer += Time.deltaTime;
-            if(timer > timeBetweenFiring)
+            if (!canFire)
             {
-                canFire = true;
-                timer = 0;
+                timer += Time.deltaTime;
+                if (timer > timeBetweenFiring)
+                {
+                    canFire = true;
+                    timer = 0;
+                }
             }
-        }
- 
-        if(canFire)
-        {
-            canFire = false;
-            Instantiate(bullet, bulletTransform.position, Quaternion.identity);
 
+            if (canFire)
+            {
+                canFire = false;
+                Instantiate(bullet, bulletTransform.position, Quaternion.identity);
+
+            }
         }
     }
 }

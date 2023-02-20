@@ -5,27 +5,30 @@ using UnityEngine;
 public class OgreBehaviour : EnemyBehaviour
 {
     private float maxSpeed;
-    [SerializeField] private float dashMaxTime = 0.5f;
-    [SerializeField] private float dashTime = 0f;
-    [SerializeField] private float dashTimer = 0f;
-    [SerializeField] private float dashReload = 5f;
-    [SerializeField] private bool canDash = true;
-    [SerializeField] private float dashDistance = 3f;
+    [SerializeField] private float speedBoost = 2f;
 
-    [SerializeField] private float attackInterval = 2f;
-    [SerializeField] private float distanceAttack = 0.1f;
-    private float time;
+
+    private float attackTimer = 0;
+
+
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private float attackRadius;
+    [SerializeField] private LayerMask playerLayer;
+
+    [SerializeField] private float attackDistance;
+    [SerializeField] private float attackReload;
+
+    [SerializeField] private float dashMaxTime;
+    private float dashTimer;
+    private bool isDash;
+
+    private bool onceDamage;
+    [SerializeField] private bool canDamage;
+    [SerializeField] private float damageDistance;
+
     [SerializeField] private int damage = 25;
 
 
-    private bool CanAttack()
-    {
-        if (distanceToPlayer <= minDistance + distanceAttack && time > attackInterval)
-        {
-            return true;
-        }
-        return false;
-    }
     protected override void Start()
     {
         maxSpeed = speed;
@@ -47,55 +50,78 @@ public class OgreBehaviour : EnemyBehaviour
     {
         BasicMove();
 
-        if (CanAttack())
+        if (isDash && dashTimer < dashMaxTime && distanceToPlayer >= minDistance)
         {
-            Attack();
-        }
-        
-        if (time < attackInterval)
-        {
-            time += Time.fixedDeltaTime;
-        }
-
-        if (!canDash)
-        {
-            speed = maxSpeed;
-            dashTimer += Time.deltaTime;
-            if (dashTimer > dashReload)
-            {
-                canDash = true;
-                dashTimer = 0;
-            }
-        }
-
-        if (dashDistance >= distanceToPlayer && canDash)
-        {
-            Dash();
-        }
-    }
-
-    private void Dash()
-    {
-        if (dashTime < dashMaxTime)
-        {
-            dashTime += Time.deltaTime;
-            speed = maxSpeed * 5;
+            dashTimer += Time.fixedDeltaTime;
+            DamageToPlayer();
         }
         else
         {
             speed = maxSpeed;
-            canDash = false;
-            dashTime = 0;
         }
-        
+
+
+        if (distanceToPlayer <= attackDistance && attackTimer >= attackReload)
+        {
+            Attack();
+        }
+
+        if (attackTimer < attackReload)
+        {
+            attackTimer += Time.fixedDeltaTime;
+        }
+
+        canDamage = distanceToPlayer <= damageDistance;
+
     }
 
-
-    protected void Attack()
+    private void Attack()
     {
-        anim.Play("ogre_attack");
-        playerPosition.GetComponent<PlayerBehaviour>().TakeDamage(damage);
-        time = 0;
-        
+        onceDamage = true;
+        dashTimer = 0;
+        isDash = true;
+        speed = maxSpeed * speedBoost;
+        attackTimer = 0;
+        anim.SetTrigger("OgreAttack");
+        Dash();
+
+    }
+
+    private void DamageToPlayer()
+    {
+        Collider2D hitPlayer = Physics2D.OverlapCircle(attackPoint.position, attackRadius, playerLayer);
+
+        if (canDamage && onceDamage)
+        {
+            hitPlayer.GetComponent<PlayerBehaviour>().TakeDamage(damage);
+            Debug.Log("Hit");
+            onceDamage = false;
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+    }
+
+    private void Dash()
+    {
+        if (dashTimer <= dashMaxTime)
+        {
+            speed = maxSpeed * speedBoost;
+            dashTimer += Time.deltaTime;
+        }
+        else
+        {
+            speed = maxSpeed;
+            dashTimer = 0;
+        }
     }
 }
+    
+
+
+
