@@ -22,7 +22,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     //—ћЁ–“№ от пули + уничтожение пули
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Bullet")
         {
